@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Fragment.OTPFragment">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/ToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:titleTextColor="?attr/colorOnBackground"
+            app:background="?attr/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/arrow_back"
+            app:navigationIconTint="?attr/colorOnBackground"
+            app:title="OTP Verification">
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <View
+            android:id="@+id/horizontalDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1.dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ToolBar" />
+
+        <TextView
+            android:id="@+id/msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="We have send Verification code to "
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalDivider" />
+        <LinearLayout
+            android:id="@+id/mobileNumberTextContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:weightSum="2"
+            app:layout_constraintTop_toBottomOf="@+id/msg"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:text="+91"/>
+            <TextView
+                android:id="@+id/mobileNumberText"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/otpBoxContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mobileNumberTextContainer">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputStyle"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="5dp"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusBottomStart="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:boxCornerRadiusTopStart="15dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/OTP1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxLength="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputStyle"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="10dp"
+                app:boxCornerRadiusBottomEnd="15.dp"
+                app:boxCornerRadiusBottomStart="15.dp"
+                app:boxCornerRadiusTopEnd="15.dp"
+                app:boxCornerRadiusTopStart="15.dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/OTP2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxLength="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputStyle"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="10dp"
+                app:boxCornerRadiusBottomEnd="15.dp"
+                app:boxCornerRadiusBottomStart="15.dp"
+                app:boxCornerRadiusTopEnd="15.dp"
+                app:boxCornerRadiusTopStart="15.dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/OTP3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxLength="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputStyle"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="10dp"
+                app:boxCornerRadiusBottomEnd="15.dp"
+                app:boxCornerRadiusBottomStart="15.dp"
+                app:boxCornerRadiusTopEnd="15.dp"
+                app:boxCornerRadiusTopStart="15.dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/OTP4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxLength="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputStyle"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="10dp"
+                app:boxCornerRadiusBottomEnd="15.dp"
+                app:boxCornerRadiusBottomStart="15.dp"
+                app:boxCornerRadiusTopEnd="15.dp"
+                app:boxCornerRadiusTopStart="15.dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/OTP5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxLength="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputStyle"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="10dp"
+                app:boxCornerRadiusBottomEnd="15.dp"
+                app:boxCornerRadiusBottomStart="15.dp"
+                app:boxCornerRadiusTopEnd="15.dp"
+                app:boxCornerRadiusTopStart="15.dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/OTP6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxLength="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/Login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginTop="32dp"
+            android:padding="15dp"
+            android:text="Login"
+            android:textSize="15sp"
+            android:textColor="@color/onBackground"
+            app:cornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/otpBoxContainer">
+
+        </com.google.android.material.button.MaterialButton>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeErrorColor">#F44336</item> <!-- Error border color -->
+        <item name="hintTextColor">?attr/colorTertiary</item> <!-- Hint text color -->
+        <item name="colorOnBackground">?attr/colorOnPrimary</item>
+     </style>
+</resources>
