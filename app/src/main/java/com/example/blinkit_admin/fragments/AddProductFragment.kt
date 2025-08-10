@@ -16,15 +16,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.blinkit_admin.adapters.AdapterSelectedImage
 import com.example.blinkit_admin.R
+import com.example.blinkit_admin.adapters.FormAdapter
 import com.example.blinkit_admin.utils.Constants
 import com.example.blinkit_admin.utils.Utils
 import com.example.blinkit_admin.blinkItViewModals.AddProductViewModal
 import com.example.blinkit_admin.databinding.FragmentAddProductBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class AddProductFragment : Fragment() {
+class AddProductFragment () : Fragment() {
     private lateinit var binding : FragmentAddProductBinding
     private var imageUris:ArrayList<Uri> = arrayListOf()
     private val viewModal: AddProductViewModal by  viewModels()
@@ -35,7 +37,6 @@ class AddProductFragment : Fragment() {
 
     private lateinit var categoryAdapter: ArrayAdapter<String>
     private lateinit var typeAdapter : ArrayAdapter<String>
-
 
     // val category = ArrayAdapter(requireContext(), R.layout.show_list, mutableListOf<String>())
    val selectedImage = registerForActivityResult(ActivityResultContracts.GetMultipleContents()){ listOfUri ->
@@ -58,6 +59,8 @@ class AddProductFragment : Fragment() {
         categoryAdapter = ArrayAdapter(requireContext(), R.layout.show_list, mutableListOf<String>())
         binding.etCategory.setAdapter(categoryAdapter)
 
+
+        binding.formFieldsRcv.adapter = FormAdapter(viewModal)
 
         typeAdapter= ArrayAdapter(requireContext(), R.layout.show_list, mutableListOf<String>())
         binding.etType.setAdapter(typeAdapter)
@@ -134,10 +137,11 @@ class AddProductFragment : Fragment() {
     }
 
 
-//    private  fun setupFormFields(){
-//        binding.formFieldsRcv.adapter = FormAdapter(viewModal)
-//
-//    }
+    private  fun setupFormFields(){
+
+        binding.formFieldsRcv.adapter = FormAdapter(viewModal)
+
+    }
 
 
 
@@ -149,29 +153,29 @@ class AddProductFragment : Fragment() {
 
             Utils.showDialog(requireContext() , "Uploading the product")
 
-//            val productName = binding.ProductName.text.toString()
-//            val quantity = binding.etProductQuantity.text.toString()
-//            val unit = binding.etUnit.text.toString()
-//            val price = binding.ProductPrice.text.toString()
-//            val category = binding.etCategory.toString()
-//            val type = binding.etType.toString()
-//            if (productName.isEmpty() || quantity.isEmpty() || unit.isEmpty() || price.isEmpty() || category.isEmpty() || type.isEmpty() ) {
-//                Utils.hideDialog()
-//                Utils.showDialog(requireContext() , "Fields Cannot be Empty")
-//                lifecycleScope.launch {
-//                    delay(5000)
-//                    Utils.hideDialog()
-//                }
-//            }else if (imageUris.isEmpty()){
-//                Utils.showDialog(requireContext() , "Please upload some Images ")
-//                lifecycleScope.launch {
-//                    delay(5000)
-//                    Utils.hideDialog()
-//                }
-//            }else{
-//
-//
-//            }
+            val productName = binding.ProductName.text.toString()
+            val quantity = binding.etProductQuantity.text.toString()
+            val unit = binding.etUnit.text.toString()
+            val price = binding.ProductPrice.text.toString()
+            val category = binding.etCategory.toString()
+            val type = binding.etType.toString()
+            if (productName.isEmpty() || quantity.isEmpty() || unit.isEmpty() || price.isEmpty() || category.isEmpty() || type.isEmpty() ) {
+                Utils.hideDialog()
+                Utils.showDialog(requireContext() , "Fields Cannot be Empty")
+                lifecycleScope.launch {
+                    delay(5000)
+                    Utils.hideDialog()
+                }
+            }else if (imageUris.isEmpty()){
+                Utils.showDialog(requireContext() , "Please upload some Images ")
+                lifecycleScope.launch {
+                    delay(5000)
+                    Utils.hideDialog()
+                }
+            }else{
+
+
+            }
 
         }
     }
