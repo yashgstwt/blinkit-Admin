@@ -1,8 +1,34 @@
 package com.example.blinkit_admin.utils
 
+import com.example.blinkit_admin.R
+import com.example.blinkit_admin.modals.dataClasses.Item
 
 
 object Constants {
+
+    var itemData : MutableList<Item> = listOf<Item>(
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+        Item(R.drawable.app_icon , "item"),
+    ) as MutableList<Item>
+
+
+
 
     val allProductCategory = arrayOf(
         "Vegetables & Fruits",

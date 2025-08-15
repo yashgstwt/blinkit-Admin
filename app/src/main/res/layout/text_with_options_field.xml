@@ -6,13 +6,16 @@
         android:baselineAligned="false"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
         android:weightSum="1">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
+            app:expandedHintEnabled="false"
+            android:id="@+id/textInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:boxCornerRadiusBottomStart="15dp"
             app:boxCornerRadiusBottomEnd="15dp"
@@ -31,8 +34,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:id="@+id/textInputLayoutDropDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:expandedHintEnabled="false"
             android:layout_marginStart="5dp"
             android:layout_weight="0.5"
             app:boxCornerRadiusBottomEnd="15dp"

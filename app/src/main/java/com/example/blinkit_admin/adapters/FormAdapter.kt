@@ -1,5 +1,6 @@
 package com.example.blinkit_admin.adapters
 
+import android.annotation.SuppressLint
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,18 +13,24 @@ import com.example.blinkit_admin.blinkItViewModals.AddProductViewModal
 import com.example.blinkit_admin.databinding.OptionsFieldBinding
 import com.example.blinkit_admin.databinding.TextFieldBinding
 import com.example.blinkit_admin.databinding.TextWithOptionsFieldBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FormAdapter(viewModal: AddProductViewModal) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private lateinit var formList : List<ProductFormInfoListItem>
+    private var formList : List<ProductFormInfoListItem> = emptyList()
 
 
     init {
-        if (viewModal.productTypeForm != null) {
-            formList = viewModal.productTypeForm!!
-        Log.d("yash1", "from init block of formAdapter ----> $formList")
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModal.productTypeForm?.collect {
+                formList = it
+                kotlinx.coroutines.withContext(Dispatchers.Main) {
+                    notifyDataSetChanged()
+                }
+            }
         }
-
     }
 
 
@@ -33,30 +40,30 @@ class FormAdapter(viewModal: AddProductViewModal) : RecyclerView.Adapter<Recycle
     ): RecyclerView.ViewHolder {
 
 
-
         return when (viewType){
 
             0 -> {
 
                 val binding = TextFieldBinding.inflate(LayoutInflater.from(parent.context), parent , false)
                 InputTextViewHolder(binding)
-
             }
 
             1 -> {
                 val binding = OptionsFieldBinding.inflate(LayoutInflater.from(parent.context), parent , false)
+
                 OptionsViewHolder(binding)
             }
 
             2 -> {
 
                 val binding = TextWithOptionsFieldBinding.inflate(LayoutInflater.from(parent.context), parent , false)
-                InputTextWithOptionsViewHolder(binding)
 
+                InputTextWithOptionsViewHolder(binding)
             }
 
             else -> {
                 val binding = TextFieldBinding.inflate(LayoutInflater.from(parent.context), parent , false)
+
                 InputTextViewHolder(binding)
             }
 
@@ -66,8 +73,7 @@ class FormAdapter(viewModal: AddProductViewModal) : RecyclerView.Adapter<Recycle
 
     override fun getItemViewType(position: Int): Int {
 
-        return when(formList?.get(position)?.inputMethod){
-
+        return when(formList[position].inputMethod){
 
             "TextField" -> 0
             "Options" -> 1
@@ -96,11 +102,9 @@ class FormAdapter(viewModal: AddProductViewModal) : RecyclerView.Adapter<Recycle
 
         fun bind(data: ProductFormInfoListItem){
             binding.inputText.hint =  "Enter ${data.label}"
-            binding.inputText.text
-
+            binding.textInputLayout.hint = data.label
             when(data.inputType){
                 "Int" -> InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-
             }
             binding.inputText.inputType  = InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
         }
@@ -110,7 +114,7 @@ class FormAdapter(viewModal: AddProductViewModal) : RecyclerView.Adapter<Recycle
     class InputTextWithOptionsViewHolder(val binding : TextWithOptionsFieldBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(data: ProductFormInfoListItem){
             val optionList = ArrayAdapter(binding.root.context, R.layout.show_list, data.options?: arrayOf("none") )
-            binding.options.hint = "Enter ${data.label}"
+            binding.textInputLayout.hint= "Enter ${data.label}"
             binding.options.hint = "e.g ${data.options?.get(0)}"
             binding.options.setAdapter(optionList)
 
@@ -123,7 +127,7 @@ class FormAdapter(viewModal: AddProductViewModal) : RecyclerView.Adapter<Recycle
 
             val optionList = ArrayAdapter(binding.root.context, R.layout.show_list, data.options!!)
             binding.optionsTv.setAdapter(optionList)
-
+            binding.textInputLayout.hint = data.label
             binding.optionsTv.hint = "e.g ${data.options[0]}"
 
         }

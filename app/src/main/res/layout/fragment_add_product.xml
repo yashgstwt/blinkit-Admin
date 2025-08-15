@@ -224,7 +224,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/form_fields_rcv"
                     android:layout_width="match_parent"
@@ -233,7 +232,6 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
                 </androidx.recyclerview.widget.RecyclerView>
-
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/add_product_img_btn"

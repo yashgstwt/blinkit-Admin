@@ -14,6 +14,7 @@ import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,11 +25,12 @@ class AddProductViewModal @Inject constructor(
 
     var categoryList: List<CategoryItem>? = null
     var productTypeList : List<Type>? = null
-    var productTypeForm : List<ProductFormInfoListItem>? = null
+
+    private var _productTypeForm : MutableStateFlow<List<ProductFormInfoListItem>>?= MutableStateFlow(emptyList())
+    val productTypeForm  = _productTypeForm?.asStateFlow()
 
     private var _categoryDropdownList = MutableStateFlow<List<String>>(listOf("Loading..."))
     val categoryDropdownList =_categoryDropdownList.asStateFlow()
-
 
     private var _productTypeDropdownList = MutableStateFlow<List<String>>(listOf("Loading..."))
     val productTypeDropdownList = _productTypeDropdownList.asStateFlow()
@@ -38,7 +40,6 @@ class AddProductViewModal @Inject constructor(
         //NOTE: In coroutine/launch block exceptions are not propagated upwards, hence it should be handled inside these block
              categoryList = supabase.from("category").select().decodeList<CategoryItem>()
             _categoryDropdownList.emit(categoryList?.map { it.name } as List<String>)
-//            Log.d("yash" , categoryList.toString())
         }catch (e: Exception){
             Log.d("myResponse" , e.toString())
         }
@@ -47,19 +48,20 @@ class AddProductViewModal @Inject constructor(
 
     suspend fun fetchProductTypeForm( productId:String ){
 
-
         try {
-
             var res : List<ProductTypeFormResponse> = supabase.from("product type form").select(Columns.list("product type form details")){
                 filter {
-
                     eq("id", productId) // Filters for rows where "id" column matches productId
                 }
             }.decodeList()
 
-            Log.d("yash", "product form list ------> ${res.get(0).productTypeFormDetails} ")
+            _productTypeForm?.emit(res[0].productTypeFormDetails).also {
+                Log.d("yash", "product form list fetchProductTypeFom() ------> ${res.get(0).productTypeFormDetails} ")
 
-            productTypeForm = res[0].productTypeFormDetails
+            }
+
+            Log.d("yash", "_product form list  ------> ${_productTypeForm?.collect()} ")
+
         }catch (exception: Exception ){
             Log.d("yash" , exception.toString())
         }
@@ -76,15 +78,15 @@ class AddProductViewModal @Inject constructor(
 
         if (selectedItemId != null ) {
 
-            Log.d("yash", " onProductTypeSelected() ----- > Selected: $selectedItem at position: $position")
-            Log.d("yash", " onProductTypeSelected() ----- > Selected product Id : $selectedItemId")
-            Log.d("yash", " onProductTypeSelected() ----- > Selected product Name : $selectedItemName")
+//            Log.d("yash", " onProductTypeSelected() ----- > Selected: $selectedItem at position: $position")
+//            Log.d("yash", " onProductTypeSelected() ----- > Selected product Id : $selectedItemId")
+//            Log.d("yash", " onProductTypeSelected() ----- > Selected product Name : $selectedItemName")
 
             try {
                 viewModelScope.launch {
                     fetchProductTypeForm(selectedItemId)
                 }.invokeOnCompletion {
-                    Log.d("yash", productTypeForm.toString())
+                    Log.d("yash", "invoke on complition "+productTypeForm.toString())
                 }
 
             }catch (e: Exception){

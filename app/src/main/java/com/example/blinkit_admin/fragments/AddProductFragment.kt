@@ -31,14 +31,9 @@ class AddProductFragment () : Fragment() {
     private var imageUris:ArrayList<Uri> = arrayListOf()
     private val viewModal: AddProductViewModal by  viewModels()
 
-    init {
-        Log.d("yash", "init block")
-    }
 
     private lateinit var categoryAdapter: ArrayAdapter<String>
     private lateinit var typeAdapter : ArrayAdapter<String>
-
-    // val category = ArrayAdapter(requireContext(), R.layout.show_list, mutableListOf<String>())
    val selectedImage = registerForActivityResult(ActivityResultContracts.GetMultipleContents()){ listOfUri ->
        val fiveImg =  listOfUri.take(5)
        imageUris.clear()
@@ -58,14 +53,16 @@ class AddProductFragment () : Fragment() {
 
         categoryAdapter = ArrayAdapter(requireContext(), R.layout.show_list, mutableListOf<String>())
         binding.etCategory.setAdapter(categoryAdapter)
+        try {
+            binding.formFieldsRcv.adapter = FormAdapter(viewModal).also {
+            }
+        }catch (e : Exception){
+            Log.d("yash", e.toString())
+        }
 
-
-        binding.formFieldsRcv.adapter = FormAdapter(viewModal)
 
         typeAdapter= ArrayAdapter(requireContext(), R.layout.show_list, mutableListOf<String>())
         binding.etType.setAdapter(typeAdapter)
-
-        Log.d("yash", "onCreateView")
 
         return binding.root
     }
@@ -142,8 +139,6 @@ class AddProductFragment () : Fragment() {
         binding.formFieldsRcv.adapter = FormAdapter(viewModal)
 
     }
-
-
 
 
     private fun onAddProductClicked() {
