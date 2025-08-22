@@ -87,7 +87,6 @@ class AddProductFragment () : Fragment() {
     }
 
     private fun observeViewModel() {
-        // In your AddProductFragment's observeViewModel() or onViewCreated()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -99,7 +98,6 @@ class AddProductFragment () : Fragment() {
                     Log.d("yash", "Categories updated in Fragment: $categories")
                 }
             }
-
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -122,7 +120,7 @@ class AddProductFragment () : Fragment() {
 
         binding.apply {
             etType.onItemClickListener
-            etUnit.setAdapter(units)
+
         }
     }
 
@@ -145,32 +143,6 @@ class AddProductFragment () : Fragment() {
 
         binding.addProduct.setOnClickListener{
 
-
-            Utils.showDialog(requireContext() , "Uploading the product")
-
-            val productName = binding.ProductName.text.toString()
-            val quantity = binding.etProductQuantity.text.toString()
-            val unit = binding.etUnit.text.toString()
-            val price = binding.ProductPrice.text.toString()
-            val category = binding.etCategory.toString()
-            val type = binding.etType.toString()
-            if (productName.isEmpty() || quantity.isEmpty() || unit.isEmpty() || price.isEmpty() || category.isEmpty() || type.isEmpty() ) {
-                Utils.hideDialog()
-                Utils.showDialog(requireContext() , "Fields Cannot be Empty")
-                lifecycleScope.launch {
-                    delay(5000)
-                    Utils.hideDialog()
-                }
-            }else if (imageUris.isEmpty()){
-                Utils.showDialog(requireContext() , "Please upload some Images ")
-                lifecycleScope.launch {
-                    delay(5000)
-                    Utils.hideDialog()
-                }
-            }else{
-
-
-            }
 
         }
     }

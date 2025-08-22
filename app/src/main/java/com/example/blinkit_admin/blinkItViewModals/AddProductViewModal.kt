@@ -5,6 +5,7 @@ import android.widget.AdapterView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blinkit_admin.modals.dataClasses.CategoryItem
+import com.example.blinkit_admin.modals.dataClasses.FormInputData
 import com.example.blinkit_admin.modals.dataClasses.ProductFormInfoListItem
 import com.example.blinkit_admin.modals.dataClasses.ProductTypeFormResponse
 import com.example.blinkit_admin.modals.dataClasses.Type
@@ -12,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
+import io.ktor.client.content.LocalFileContent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -34,7 +36,9 @@ class AddProductViewModal @Inject constructor(
 
     private var _productTypeDropdownList = MutableStateFlow<List<String>>(listOf("Loading..."))
     val productTypeDropdownList = _productTypeDropdownList.asStateFlow()
-    
+
+    lateinit var formData: Array<FormInputData?>
+
     suspend fun fetchCategoryList() {
         try {
         //NOTE: In coroutine/launch block exceptions are not propagated upwards, hence it should be handled inside these block
@@ -45,22 +49,24 @@ class AddProductViewModal @Inject constructor(
         }
     }
 
-
     suspend fun fetchProductTypeForm( productId:String ){
 
         try {
-            var res : List<ProductTypeFormResponse> = supabase.from("product type form").select(Columns.list("product type form details")){
+            val res : List<ProductTypeFormResponse> = supabase.from("product type form").select(Columns.list("product type form details")){
                 filter {
                     eq("id", productId) // Filters for rows where "id" column matches productId
                 }
             }.decodeList()
 
             _productTypeForm?.emit(res[0].productTypeFormDetails).also {
-                Log.d("yash", "product form list fetchProductTypeFom() ------> ${res.get(0).productTypeFormDetails} ")
+                Log.d("yash", "product form list fetchProductTypeFom() ------> ${res[0].productTypeFormDetails} ")
+
+              formData = arrayOfNulls<FormInputData>(res[0].productTypeFormDetails.size);
+                Log.d("yash", "formData in  fetchProductTypeFom() ------> ${formData} ")
 
             }
 
-            Log.d("yash", "_product form list  ------> ${_productTypeForm?.collect()} ")
+//            Log.d("yash", "_product form list  ------> ${_productTypeForm?.collect()} ")
 
         }catch (exception: Exception ){
             Log.d("yash" , exception.toString())
@@ -70,43 +76,33 @@ class AddProductViewModal @Inject constructor(
 
 
     fun onProductTypeSelected(parent: AdapterView<*>?, position: Int) {
-        val selectedItem = parent?.getItemAtPosition(position) as? String
 
         val selectedItemId = productTypeList?.get(position)?.id
-        val selectedItemName = productTypeList?.get(position)?.Name
 
 
         if (selectedItemId != null ) {
-
-//            Log.d("yash", " onProductTypeSelected() ----- > Selected: $selectedItem at position: $position")
-//            Log.d("yash", " onProductTypeSelected() ----- > Selected product Id : $selectedItemId")
-//            Log.d("yash", " onProductTypeSelected() ----- > Selected product Name : $selectedItemName")
 
             try {
                 viewModelScope.launch {
                     fetchProductTypeForm(selectedItemId)
                 }.invokeOnCompletion {
-                    Log.d("yash", "invoke on complition "+productTypeForm.toString())
+                    Log.d("yash", "invoke on completion $productTypeForm")
+                    Log.d("yash", " on productTypeSelected() formData :  $formData")
                 }
 
             }catch (e: Exception){
                 Log.d("yash", e.toString())
             }
-
-
-
         }
+        formData = emptyArray()
     }
 
     fun onCategoryTypeSelected(parent: AdapterView<*>?, position: Int) {
 
-//        val selectedCategoryItem = parent?.getItemAtPosition(position) as? String
-//        Log.d("yash", "Selected: $selectedCategoryItem at position: $position")
             viewModelScope.launch {
                 _productTypeDropdownList.emit(categoryList?.get(position)?.types?.map { it.Name } as List<String>)
             }
         productTypeList = categoryList?.get(position)?.types
-//       Log.d("yash", "onCategoryTypeSelected ----> Selected: $selectedCategoryItem at position: $position  and data ${_productTypeDropdownList.value}")
 
     }
 }
