@@ -58,6 +58,9 @@
                         app:boxCornerRadiusBottomEnd="15dp"
                         app:boxCornerRadiusTopStart="15dp"
                         app:boxCornerRadiusTopEnd="15dp"
+                        app:errorEnabled="true"
+                        app:hintAnimationEnabled="true"
+                        android:layout_marginVertical="2.5dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -82,8 +85,11 @@
                         app:boxCornerRadiusTopStart="15dp"
                         app:boxCornerRadiusTopEnd="15dp"
                         android:layout_width="0dp"
+                        android:layout_marginVertical="2.5dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        app:errorEnabled="true"
+                        app:hintAnimationEnabled="true"
                         android:layout_weight="1">
 
                         <AutoCompleteTextView
@@ -107,14 +113,17 @@
                     app:boxCornerRadiusBottomStart="15dp"
                     app:boxCornerRadiusTopEnd="15dp"
                     app:boxCornerRadiusTopStart="15dp"
+                    app:errorEnabled="true"
+                    app:hintAnimationEnabled="true"
+                    android:layout_marginVertical="2.5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:layout_weight="1">
 
                     <AutoCompleteTextView
                         android:id="@+id/et_category"
                         android:padding="10dp"
+                        android:editable="false"
                         android:drawableStart="@drawable/category_24"
                         android:drawablePadding="5dp"
                         android:layout_width="match_parent"
@@ -122,8 +131,7 @@
                         android:paddingHorizontal="15.dp"
                         android:drawableTint="?attr/colorOnBackground"
                         android:onItemClickListener="@{(parent, view, position, id) -> formViewModal.onCategoryTypeSelected(parent,position)}"
-                        android:hint="Product Category"
-                        />
+                        android:hint="Product Category" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,6 +142,9 @@
                     app:boxCornerRadiusBottomEnd="15dp"
                     app:boxCornerRadiusTopStart="15dp"
                     app:boxCornerRadiusTopEnd="15dp"
+                    app:errorEnabled="true"
+                    app:hintAnimationEnabled="true"
+                    android:layout_marginVertical="2.5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
@@ -141,6 +152,7 @@
                     <AutoCompleteTextView
                         android:id="@+id/et_type"
                         android:padding="10dp"
+                        android:editable="false"
                         android:drawableStart="@drawable/category_24"
                         android:drawablePadding="5dp"
                         android:layout_width="match_parent"

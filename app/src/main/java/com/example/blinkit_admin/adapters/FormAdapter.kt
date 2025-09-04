@@ -34,7 +34,6 @@ class FormAdapter( val viewModal: AddProductViewModal) : RecyclerView.Adapter<Re
                 withContext(Dispatchers.Main) {
                     notifyDataSetChanged()
                 }
-//                Log.d("yash" , "from init block of formAdapter : ${viewModal.formData}")
             }
         }
     }

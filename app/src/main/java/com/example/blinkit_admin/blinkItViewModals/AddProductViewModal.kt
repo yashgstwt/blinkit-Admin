@@ -9,6 +9,7 @@ import com.example.blinkit_admin.modals.dataClasses.FormInputData
 import com.example.blinkit_admin.modals.dataClasses.ProductFormInfoListItem
 import com.example.blinkit_admin.modals.dataClasses.ProductTypeFormResponse
 import com.example.blinkit_admin.modals.dataClasses.Type
+import com.example.blinkit_admin.modals.dataClasses.productTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerialName
 import javax.inject.Inject
 
 @HiltViewModel
@@ -61,12 +63,10 @@ class AddProductViewModal @Inject constructor(
             _productTypeForm?.emit(res[0].productTypeFormDetails).also {
                 Log.d("yash", "product form list fetchProductTypeFom() ------> ${res[0].productTypeFormDetails} ")
 
-              formData = arrayOfNulls<FormInputData>(res[0].productTypeFormDetails.size);
+              formData = arrayOfNulls<FormInputData>(res[0].productTypeFormDetails.size  );
                 Log.d("yash", "formData in  fetchProductTypeFom() ------> ${formData} ")
 
             }
-
-//            Log.d("yash", "_product form list  ------> ${_productTypeForm?.collect()} ")
 
         }catch (exception: Exception ){
             Log.d("yash" , exception.toString())
@@ -105,4 +105,20 @@ class AddProductViewModal @Inject constructor(
         productTypeList = categoryList?.get(position)?.types
 
     }
+
+    suspend fun insertInputData(price:Int, productName:String, stock : Int, img: Array<String>?, details:Array<FormInputData?> , category:String , type:String){
+
+        try{
+            val formData : productTable = productTable(price = price, productName = productName, stock = stock , img = img , details = details, category = category ,type = type)
+
+            val res = supabase.from("products_table").insert(formData)
+            Log.d("yash",res.toString())
+
+        }catch (e :Exception){
+            Log.d("yash",e.toString())
+
+        }
+
+    }
+
 }
