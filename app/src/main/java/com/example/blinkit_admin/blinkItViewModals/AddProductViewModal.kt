@@ -14,12 +14,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
-import io.ktor.client.content.LocalFileContent
+import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerialName
 import javax.inject.Inject
 
 @HiltViewModel
@@ -106,10 +104,12 @@ class AddProductViewModal @Inject constructor(
 
     }
 
-    suspend fun insertInputData(price:Int, productName:String, stock : Int, img: Array<String>?, details:Array<FormInputData?> , category:String , type:String){
+    suspend fun insertInputData(price: Int, productName: String, stock: Int, img: MutableList<String>, details: Array<FormInputData?>, category: String, type: String){
 
         try{
-            val formData : productTable = productTable(price = price, productName = productName, stock = stock , img = img , details = details, category = category ,type = type)
+            val formData : productTable = productTable(
+                price = price, productName = productName, stock = stock , img = img , details = details, category = category ,
+                type = type)
 
             val res = supabase.from("products_table").insert(formData)
             Log.d("yash",res.toString())
@@ -120,5 +120,29 @@ class AddProductViewModal @Inject constructor(
         }
 
     }
+    suspend fun uploadProductImage(filePath: String, imageBytes: ByteArray): String {
+        var publicUrl = ""
+        try {
+            // 1. Upload the file and get its path within the bucket
+            val uploadedFilePath = supabase.storage
+                .from("productImages") // Your bucket name
+                .upload(path = filePath, data = imageBytes)
+                .path // This is the path like "folder/image.jpg"
+
+            // 2. Get the public URL using the path
+            if (uploadedFilePath.isNotBlank()) {
+                publicUrl = supabase.storage
+                    .from("productImages") // Your bucket name
+                    .publicUrl("public/$uploadedFilePath") // Use the path obtained from the upload
+            } else {
+                Log.e("imgUpload", "Uploaded file path is blank, cannot get public URL.")
+            }
+
+        } catch (e: Exception) {
+            Log.e("imgUpload", "Error uploading image or getting public URL: ${e.toString()}")
+        }
+        return publicUrl
+    }
+
 
 }

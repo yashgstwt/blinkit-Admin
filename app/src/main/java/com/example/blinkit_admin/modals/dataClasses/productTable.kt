@@ -6,19 +6,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class productTable(
     @SerialName("product_name")
-    val productName:String,
+    val productName: String,
     @SerialName("price")
-    val price : Int,
+    val price: Int,
     @SerialName("stock")
-    val stock : Int,
+    val stock: Int,
     @SerialName("product_images")
-    val img: Array<String>?,
+    val img: MutableList<String>,
     @SerialName("details")
-    val details:Array<FormInputData?>,
+    val details: Array<FormInputData?>,
     @SerialName("category")
     val category: String,
     @SerialName("type")
-    val type:String
+    val type: String
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

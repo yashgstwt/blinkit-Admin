@@ -16,7 +16,12 @@ object Utils {
         val progress = ProgressDialogBinding.inflate(LayoutInflater.from(context))
         progress.loginState.text = msg
 
-        dialog = AlertDialog.Builder(context).setView(progress.root).setCancelable(false).create()
+        dialog = AlertDialog
+            .Builder(context)
+            .setView(progress.root)
+            .setCancelable(false)
+            .create()
+
         dialog?.show()
     }
     fun hideDialog(){

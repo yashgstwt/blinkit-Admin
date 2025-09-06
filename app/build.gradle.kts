@@ -64,7 +64,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
-    implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.messaging.ktx)
     implementation(libs.play.services.auth)
@@ -74,6 +73,7 @@ dependencies {
     implementation(platform("io.github.jan-tennert.supabase:bom:3.0.0"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("io.ktor:ktor-client-okhttp:3.0.0")
+    implementation("io.github.jan-tennert.supabase:storage-kt")
 
     //Kotlin Serialization
     implementation( "org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
